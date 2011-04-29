@@ -1,0 +1,118 @@
+			IDL_SQL package 
+	Author: Sergey Koposov, Max Planck Institute for Astronomy
+							Institute of Astronomy Cambridge,
+							(2005-2007)
+	Email: math@sai.msu.ru
+	Web: http://lnfm1.sai.msu.ru/~math
+
+This package provide 1 function
+	get_sql()
+and 2 procedures 
+	get_sql_col and exec_sql
+
+which allow you to execute the SQL queries and obtain their results in IDL 
+
+**************************************************************************
+	GET_SQL() function
+
+1) get_sql execute the query and returns the 2d array with the
+results. All the datatypes in the results are converted to doubles or ints
+or strings (The default type is double)
+
+Example:
+IDL> dat=get_sql('select ra,dec from rc3')
+IDL> help,dat
+DAT             DOUBLE    = Array[2, 23011]
+
+IDL> dat=get_sql('select name,altname from rc3',/string)
+IDL> help,dat
+DAT             STRING    = Array[2, 23011]
+
+IDL> dat=get_sql('select "PA","W20" from rc3',/long)
+IDL> help,dat
+DAT             LONG      = Array[2, 23011]
+
+
+If the casting of the column to the resulting type do not succeed, the
+exception is thrown:
+
+IDL> dat=get_sql('select name,altname from rc3')
+% GET_SQL: Exception thrown: org.postgresql.util.PSQLException: Bad value for
+           type double : ESO  342- 13
+% Error occurred at: GET_SQL           145 /opt/idl_libs/idl_sql/get_sql.pro
+...
+
+**************************************************************************
+
+	GET_SQL_COL procedure 
+The get_sql_col procedure do almost the same as the get_sql() function, but
+it puts the results not in one big 2d array, but in a named 1d
+arrays(columns):
+
+IDL> get_sql_col,'select name,altname from rc3',name,altname,/str
+IDL> help,name
+NAME            STRING    = Array[23011]
+IDL> help,altname
+ALTNAME            STRING    = Array[23011]
+
+
+**************************************************************************
+	EXEC_SQL procedure 
+
+The exec_sql procedure can be used to execute arbitrary DB commands without
+retrieving the results:
+
+IDL> exec_sql,'create table tmp(ra real, dec real)'
+IDL> exec_sql,'drop table tmp'
+
+
+IDL> radec=get_sql('select ra,dec from vvds', DB='wsdb', USER='math', 
+    HOST='localhost', PORT='5432', PASS='')
+IDL> help,radec
+RADEC           DOUBLE    = Array[2, 1599]
+
+If you don't specify the DB connection parameters in the call of your
+function, you can do that by using system variables of IDL 
+!_IDL_SQL_DRIVER
+!_IDL_SQL_USER
+!_IDL_SQL_PASS
+!_IDL_SQL_PROTOCOL
+!_IDL_SQL_HOST
+!_IDL_SQL_PORT
+!_IDL_SQL_DB
+!_IDL_SQL_URL
+
+So, if your IDL_STARTUP script for examle would contain something
+like that:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; defsysv, '!_IDL_SQL_DRIVER','org.postgresql.Driver' 
+; defsysv, '!_IDL_SQL_USER','yourusername'
+; defsysv, '!_IDL_SQL_PASS',''
+; defsysv, '!_IDL_SQL_PROTOCOL','jdbc:postgresql://'
+; defsysv, '!_IDL_SQL_HOST','localhost'
+; defsysv, '!_IDL_SQL_PORT','5432'
+; defsysv, '!_IDL_SQL_DB','yourdbname'
+
+then there is no need to specify any of the parameters of the
+connection when you call the IDL-SQL functions
+
+
+
+
+
+
+
+
+
+ You should have the right enviroment setup
+  export IDLJAVAB_LIB_LOCATION=~/j2sdk1.4.2_10/jre/lib/i386/client/
+ (the path to libjvm.so)
+
+    to not crash on big result sets place in your ~/.idljavabrc
+     the following string 
+    JVM Option1 = -Xmx256m
+
+ Also I recommend to put the followingoptions in the  ~/.idljavabrc
+ JVM Classpath = $CLASSPATH:path_to_the_current_package
+
+
