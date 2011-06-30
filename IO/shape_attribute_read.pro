@@ -1,6 +1,43 @@
+;+
+; NAME:
+;
+;    shape_attribute_read
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+; Read attribute from one shape file.
+
+;
+; CALLING SEQUENCE:
+;
+;    result = shape_attribute_read, fn_shape, fld_NAME
+;
+; ARGUMENTS:
+;
+;    fn_shape: a string vector of shape file name with full path, program can only read 
+;    attribute from a single shape file
+;
+; KEYWORDS:
+;
+;    fld_NAME: A string vector of field name. if this KEYWORDS isn't given, program will read
+;              all the fields; else, program can only read attribute for a single field
+;
+; OUTPUTS:
+;
+;    a array, the attribute of specified field(s) of shape file
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
 function shape_attribute_read, fn_shape, fld_NAME
   fld_NAME =  STRUPCASE(fld_Name)
-  
+  print, fld_NAME
   if keyword_set (fn_Shape) then begin
     if n_elements(fn_shape) GT 1 then begin
       print, 'can only read attribute from a single shape file'
@@ -26,7 +63,8 @@ function shape_attribute_read, fn_shape, fld_NAME
       RETALL
     endif
     
-    subscript_tmp = where (STRUPCASE(strtrim(ATTRIBUTE_NAMES,2)) eq STRUPCASE(fld_name), count_tmp)
+    subscript_tmp = where (STRUPCASE(strtrim(ATTRIBUTE_NAMES,2)) eq STRUPCASE(fld_name),$
+                           count_tmp)
     if count_tmp NE 1 then begin
       print, 'can not find field ' + fld_name + ' in file ' + fn_shape
       RETALL
