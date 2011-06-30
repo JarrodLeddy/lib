@@ -15,7 +15,7 @@
 ;
 ; CALLING SEQUENCE:
 ;
-;    result = shape_attribute_read, fn_shape, fld_NAME
+;    result = shape_attribute_read(fn_shape, fld_NAME)
 ;
 ; ARGUMENTS:
 ;
