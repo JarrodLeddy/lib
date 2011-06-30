@@ -10,7 +10,7 @@
 ;
 ; PURPOSE:
 ;
-; Read attribute from one shape file.
+;    Read attribute from one shape file.
 
 ;
 ; CALLING SEQUENCE:
@@ -19,26 +19,28 @@
 ;
 ; ARGUMENTS:
 ;
-;    fn_shape: a string vector of shape file name with full path, program can only read 
+;    fn_shape: a string vector of shape file name with full path. Program can only read 
 ;    attribute from a single shape file
 ;
 ; KEYWORDS:
 ;
-;    fld_NAME: A string vector of field name. if this KEYWORDS isn't given, program will read
-;              all the fields; else, program can only read attribute for a single field
+;    fld_NAME: A string vector of field name. if this KEYWORDS is given, program will read
+;              the specified field, but can only read attribute for a single field; otherwise,
+;              it will read all the fields.
 ;
 ; OUTPUTS:
 ;
-;    a array, the attribute of specified field(s) of shape file
+;    An array, which is the attribute of specified field(s) of shape file
 ;
 ; EXAMPLE:
 ;
 ; MODIFICATION_HISTORY:
 ;
+;    Code written by Weihua Fang.
+;    Comments written by Yuguo Wu.
+;
 function shape_attribute_read, fn_shape, fld_NAME
-  fld_NAME =  STRUPCASE(fld_Name)
-  print, fld_NAME
-  if keyword_set (fn_Shape) then begin
+    if keyword_set (fn_Shape) then begin
     if n_elements(fn_shape) GT 1 then begin
       print, 'can only read attribute from a single shape file'
       RETALL
@@ -58,6 +60,7 @@ function shape_attribute_read, fn_shape, fld_NAME
   OBJ_DESTROY, oShape
   
   if keyword_set (fld_name) then begin
+    fld_NAME =  STRUPCASE(fld_Name)
     if n_elements(fld_name) NE 1 then begin
       print, 'can only read attribute for a single field or all fields'
       RETALL
