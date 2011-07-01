@@ -1,3 +1,49 @@
+;+
+; NAME:
+;
+;    shape_attribute_add
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+;    add attribute for shape file.
+
+;
+; CALLING SEQUENCE:
+;
+;    result = shape_attribute_add, fn_shape_main, fn_shape_rst, $
+;    fld_NAME = fld_NAME, fld_TYPE = fld_TYPE, fld_WIDTH = fld_WIDTH, $
+;    fld_PRECISION = fld_PRECISION
+;
+; ARGUMENTS:
+;
+;    fn_shape_main: A string of shape file name with full path. Program can only read 
+;    attribute from a single shape file.
+;    fld_shape_rst: A string of field name to be added attribute.
+;
+; KEYWORDS:
+;
+;    fld_NAME: A string of field name to be added.
+;    fld_TYPE: An integer number of field's type code.
+;    fld_WIDTH: An integer number of field's width.
+;    fld_PRECISION: An integer number of field's precision
+;
+; OUTPUTS:
+;
+;    0: add failed for the reason that the shape file doesn't exit
+;    1：  Set successfully.
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
+;    Code written by Weihua Fang.
+;    Comments written by Yuguo Wu.
+;
 function shape_attribute_add, fn_shape_main, fn_shape_rst, $
     fld_NAME = fld_NAME, fld_TYPE = fld_TYPE, fld_WIDTH = fld_WIDTH, $
     fld_PRECISION = fld_PRECISION
