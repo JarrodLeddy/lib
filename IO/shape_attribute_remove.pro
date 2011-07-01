@@ -1,3 +1,43 @@
+;+
+; NAME:
+;
+;    shape_attribute_remove
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+;    Remove attribute for shape file.
+
+;
+; CALLING SEQUENCE:
+;
+;    result = shape_attribute_remove(fn_shape_src, fn_shape_rst, names_remove)
+;
+; ARGUMENTS:
+;
+;    fn_shape_src: A string of shape file name with full path. Program can only read 
+;    attribute from a single shape file.
+;    fld_shape_rst: A string of shape file name to be removed attribute.
+;    name_remove: A string of field name to be removed
+;
+; KEYWORDS:
+;
+; OUTPUTS:
+;
+;    0: Remove failed for the reason that the shape file doesn't exit
+;    1：  Remove successfully.
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
+;    Code written by Weihua Fang.
+;    Comments written by Yuguo Wu.
+;
 function shape_attribute_remove, fn_shape_src, fn_shape_rst, names_remove
   ; testing the existence of shape file
   fi = FILE_INFO(fn_shape_src)
