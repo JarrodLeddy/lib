@@ -1,3 +1,50 @@
+;+
+; NAME:
+;
+;    shape_attribute_set
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+;    Set attribute value for shape file.
+
+;
+; CALLING SEQUENCE:
+;
+;    result = shape_attribute_set(fn_shape, fld_NAME, fld_VALUES, sub_Recs = sub_Recs)
+;
+; ARGUMENTS:
+;
+;    fn_shape: A string of shape file name with full path. Program can only read 
+;    attribute from a single shape file
+;    fld_NAME: A string of field name to be set.
+;    fld_VALUES: A string vector of field's value. The number of this vector must be equal
+;    to the number of records to be set.
+;
+; KEYWORDS:
+;
+;    sub_Recs: A string vector of record to be set. If it's given, program will set values
+;              for it; otherwise, program will set all the record.
+;
+; OUTPUTS:
+;
+;    0: Set failed for such reasons:
+;       a. Shape file doesn't exit.
+;       b. The number of fld_VALUES is not equal to the number of record to be set.
+;       c. field doesn't exit.
+;    1：  Set successfully.
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
+;    Code written by Weihua Fang.
+;    Comments written by Yuguo Wu.
+;
 function shape_attribute_set, fn_shape, fld_NAME, fld_VALUES, sub_Recs = sub_Recs
   ; testing the existence of shape file
   fi = FILE_INFO(fn_Shape)
