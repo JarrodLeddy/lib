@@ -10,14 +10,14 @@
 ;
 ; PURPOSE:
 ;
-;    add attribute for shape file.
+;    Add attribute for shape file.
 
 ;
 ; CALLING SEQUENCE:
 ;
-;    result = shape_attribute_add, fn_shape_main, fn_shape_rst, $
+;    result = shape_attribute_add(fn_shape_main, fn_shape_rst, $
 ;    fld_NAME = fld_NAME, fld_TYPE = fld_TYPE, fld_WIDTH = fld_WIDTH, $
-;    fld_PRECISION = fld_PRECISION
+;    fld_PRECISION = fld_PRECISION)
 ;
 ; ARGUMENTS:
 ;
@@ -34,8 +34,8 @@
 ;
 ; OUTPUTS:
 ;
-;    0: add failed for the reason that the shape file doesn't exit
-;    1：  Set successfully.
+;    0: Add failed for the reason that the shape file doesn't exit
+;    1：  Add successfully.
 ;
 ; EXAMPLE:
 ;
