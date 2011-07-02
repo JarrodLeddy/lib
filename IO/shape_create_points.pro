@@ -21,7 +21,9 @@
 ;
 ; ARGUMENTS:
 ;
-;    ShapeFile: A string of shape file name, which is used for position judgement
+;    fn_shape: A string of shape file name, which is the creating points shape file.
+;    Program can only create a single shape file once, and cannot creating an existing
+;    file name
 ;    longitude: A float vector of longitude
 ;    latitude:  A float vector of latitude
 ;
