@@ -1,3 +1,49 @@
+;+
+; NAME:
+;
+;    shape_create_points
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+;    Create a points shape file
+;
+;
+; CALLING SEQUENCE:
+;
+;    shape_create_points(fn_shape, longitude, latitude, lon_PRECISION =lon_PRECISION, $
+;    lat_PRECISION = lat_PRECISION, fld_NAME = fld_NAME, fld_TYPE = fld_TYPE, $
+;    fld_WIDTH = fld_WIDTH, fld_PRECISION = fld_PRECISION, pts_VALUES = pts_VALUES)
+;
+; ARGUMENTS:
+;
+;    ShapeFile: A string of shape file name, which is used for position judgement
+;    longitude: A float vector of longitude
+;    latitude:  A float vector of latitude
+;
+; KEYWORDS:
+;
+;    lon_PRECISION: A integer vector of the precision of longitude
+;    lat_PRECISION: A integer vector of The precision of latitude
+;    fld_NAME: A stirng vector of field name for the creating points
+;    fld_TYPE: A integer vector of field type for the creating points
+;    fld_WIDTH: A integer vector of field width
+;    fld_PRECISION: A integer vector of field precision for the creating points
+;    pts_VALUES: A float vector of creating points' value
+;
+; OUTPUTS:
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
+;    Code written by Weihua Fang.
+;    Comments written by Yuguo Wu.
+;
 function shape_create_points, fn_shape, longitude, latitude, $
     lon_PRECISION =lon_PRECISION, lat_PRECISION = lat_PRECISION, $
     fld_NAME = fld_NAME, fld_TYPE = fld_TYPE, fld_WIDTH = fld_WIDTH, $
