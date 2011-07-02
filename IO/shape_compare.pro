@@ -1,3 +1,44 @@
+;+
+; NAME:
+;
+;    shape_compare
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+;    Compare two shape files with fields' name and type.
+;
+;
+; CALLING SEQUENCE:
+;
+;    result = shape_compare(fn_shape_main, fn_shape_chk)
+;
+; ARGUMENTS:
+;
+;    fn_shape_main: A string of shape file name to be compared
+;    fn_shape_chk: A string vector of shape file names to compare with fn_shape_main
+;
+; KEYWORDS:
+;
+; OUTPUTS:
+;
+;    0: Compare failed for such reason
+;      a. compared shape file doesn't exit
+;      b. comparing shape file doesn't exit
+;    feature_type_fld_name_type: An 0/1 vector of comparing output.If comparing shape 
+;    file's field is the same as compared shape file, the output is 1; otherwise. it's 0 
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
+;    Code written by Weihua Fang.
+;    Comments written by Yuguo Wu.
+;
 function shape_compare, fn_shape_main, fn_shape_chk
 
   ; testing the existence of shape file
