@@ -27,7 +27,7 @@
 ;
 ; OUTPUTS:
 ;
-;    0: Add failed for such reason
+;    0: Append failed for such reason
 ;      a. source shape file doesn't exit
 ;      b. appending shape file doesn't exit
 ;      c. appending shape file is not the same type with the source file.

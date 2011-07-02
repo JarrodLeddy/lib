@@ -29,7 +29,7 @@
 ;
 ; OUTPUTS:
 ;
-;    0: Add failed for the reason that the shape file doesn't exit
+;    0: Copy failed for the reason that the shape file doesn't exit
 ;    1：  Add successfully.
 ;
 ; EXAMPLE:
