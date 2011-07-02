@@ -1,3 +1,44 @@
+;+
+; NAME:
+;
+;    shape_containspoints
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+;    Judge the position relationship between a point and ROI
+;
+;
+; CALLING SEQUENCE:
+;
+;    result = shape_containsPoints(ShapeFile, x, y)
+;
+; ARGUMENTS:
+;
+;    ShapeFile: a string of shape file name, which is used for position judgement
+;
+; KEYWORDS:
+;
+; OUTPUTS:
+;
+;    -1: The shape file type is not polygon
+;    ShpCntnPts: An integer vector of the judgement result.
+;      0 = Exterior. The point lies strictly out of bounds of the ROI
+;      1 = Interior. The point lies strictly inside the bounds of the ROI
+;      2 = On edge. The point lies on an edge of the ROI boundary
+;      3 = On vertex. The point matches a vertex of the ROI
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
+;    Code written by Weihua Fang.
+;    Comments written by Yuguo Wu.
+;
 function shape_containsPoints, ShapeFile, x, y
 
   N_pts = n_elements(x)
@@ -5,6 +46,7 @@ function shape_containsPoints, ShapeFile, x, y
   
   oShape = obj_new('IDLffShape',ShapeFile)
   oShape-> GetProperty, ENTITY_TYPE  = ENTITY_TYPE
+  print, ENTITY_TYPE
   
   if ENTITY_TYPE ne 5 then begin
     obj_destroy,oShape
