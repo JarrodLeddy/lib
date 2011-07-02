@@ -1,3 +1,51 @@
+;+
+; NAME:
+;
+;    shape_create_grid
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+;    Create a grid shape file
+;
+;
+; CALLING SEQUENCE:
+;
+;    shape_create_grid(fn_shape, x0, y0, n_cols, n_rows, grid_size, fld_NAME = fld_NAME,$
+;    fld_TYPE = fld_TYPE, fld_WIDTH = fld_WIDTH, fld_PRECISION = fld_PRECISION, $
+;    grid_VALUES = grid_VALUES)
+;
+; ARGUMENTS:
+;
+;    fn_shape: A string of shape file name, which is the creating grid. Program can only create a
+;    single shape file for once.
+;    x0: A float of x coordinate of basic point
+;    y0: A float of y coordinate of basic point
+;    n_cols: The number of creating grid columns
+;    n_rows: The number of creating grid row
+;    grid_size: A 1*2 vector of grid size. grid[0] is column size, grid[1] is row size.
+;
+; KEYWORDS:
+;
+;    fld_NAME: A stirng vector of field name for the creating points
+;    fld_TYPE: A integer vector of field type for the creating points
+;    fld_WIDTH: A integer vector of field width
+;    fld_PRECISION: A integer vector of field precision for the creating points
+;    grid_VALUES: A float vector of creating grid' value
+;
+; OUTPUTS:
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
+;    Code written by Weihua Fang.
+;    Comments written by Yuguo Wu.
+;
 function shape_create_grid, fn_shape, x0, y0, n_cols, n_rows, grid_size, $
     fld_NAME = fld_NAME, fld_TYPE = fld_TYPE, fld_WIDTH = fld_WIDTH, $
     fld_PRECISION = fld_PRECISION, grid_VALUES = grid_VALUES
