@@ -29,8 +29,8 @@
 ;    0: Compare failed for such reason
 ;      a. compared shape file doesn't exit
 ;      b. comparing shape file doesn't exit
-;    feature_type_fld_name_type: An 0/1 vector of comparing output.If comparing shape 
-;    file's field is the same as compared shape file, the output is 1; otherwise. it's 0 
+;    feature_type_fld_name_type: An 0/1 vector of comparing result.If comparing shape 
+;    file's field is the same as compared shape file, it's 1; otherwise. it's 0 
 ;
 ; EXAMPLE:
 ;
