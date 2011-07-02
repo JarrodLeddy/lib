@@ -1,3 +1,47 @@
+;+
+; NAME:
+;
+;    shape_append
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+;    Append a shape file to another shape file
+;
+;
+; CALLING SEQUENCE:
+;
+;    result = shape_copy(fn_shape_src, fn_shape_append, fn_shape_rst)
+;
+; ARGUMENTS:
+;
+;    fn_shape_src: A string of source shape file name to be appended.
+;    fn_shape_append: A string of appending shape file name
+;    fn_shape_rst:  A string of shape file name, which is the output file after appending.
+;
+; KEYWORDS:
+;
+; OUTPUTS:
+;
+;    0: Add failed for such reason
+;      a. source shape file doesn't exit
+;      b. appending shape file doesn't exit
+;      c. appending shape file is not the same type with the source file.
+;      d. field name(s) of appending shape file is not the same as the source file
+;      e. field type of appending shape file is not the same as the source file
+;    1：  Add successfully.
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
+;    Code written by Weihua Fang.
+;    Comments written by Yuguo Wu.
+;
 function shape_append, fn_shape_src, fn_shape_append, fn_shape_rst
   ; testing the existence of shape file
   fi = FILE_INFO(fn_shape_src)

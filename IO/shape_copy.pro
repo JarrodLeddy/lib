@@ -1,3 +1,44 @@
+;+
+; NAME:
+;
+;    shape_copy
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+;    Copy a shape file.
+;
+;
+; CALLING SEQUENCE:
+;
+;    result = shape_copy(fn_shape_src, fn_shape_rst, names_replace = name_replace)
+;
+; ARGUMENTS:
+;
+;    fn_shape_src: A string of shape file name to be copied with full path.
+;    fn_shape_rst: A string of shape file name, which is the copied file.
+;
+; KEYWORDS:
+;
+;    name_replace: A string of file name. If it's given, copied file name is replaced
+;    with it; otherwise, copied file name is the same as source file.
+;
+; OUTPUTS:
+;
+;    0: Add failed for the reason that the shape file doesn't exit
+;    1：  Add successfully.
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
+;    Code written by Weihua Fang.
+;    Comments written by Yuguo Wu.
+;
 function shape_copy, fn_shape_src, fn_shape_rst, names_replace = name_replace
   
   ; testing the existence of shape file
