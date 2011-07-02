@@ -20,6 +20,8 @@
 ; ARGUMENTS:
 ;
 ;    ShapeFile: a string of shape file name, which is used for position judgement
+;    x: A vector of x coordinates
+;    y: A vector of y coordinates
 ;
 ; KEYWORDS:
 ;
