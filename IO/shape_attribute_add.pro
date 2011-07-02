@@ -11,7 +11,6 @@
 ; PURPOSE:
 ;
 ;    Add attribute for shape file.
-
 ;
 ; CALLING SEQUENCE:
 ;
@@ -35,7 +34,7 @@
 ; OUTPUTS:
 ;
 ;    0: Add failed for the reason that the shape file doesn't exit
-;    1：  Add successfully.
+;    1：Add successfully.
 ;
 ; EXAMPLE:
 ;
