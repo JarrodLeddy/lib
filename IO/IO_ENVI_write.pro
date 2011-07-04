@@ -1,4 +1,43 @@
-function IO_ENVI_write, array_in, str_file_out=str_file_out, str_file_hdr= str_file_hdr
+;+
+; NAME:
+;
+;    IO_ENVI_write
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+;    Write envi or envi header file
+;
+;
+; CALLING SEQUENCE:
+;
+;    result = IO_ENVI_write(array_in, str_file_out=str_file_out, str_file_hdr = str_file_hdr)
+;
+; ARGUMENTS:
+;
+;    array_in: Input array for envi file.
+;
+; KEYWORDS:
+;
+;    str_file_out: a string of output envi file name
+;    str_file_hdr: a string of writing envi header file name
+;
+; OUTPUTS:
+;
+;    1：  Write successfully
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
+;    Code written by Weihua Fang.
+;    Comments written by Yuguo Wu.
+;
+function IO_ENVI_write, array_in, str_file_out=str_file_out, str_file_hdr = str_file_hdr
 
   if keyword_set(str_file_out) then begin
     openw,  int_file_unit, str_file_out, /get_lun
