@@ -24,7 +24,7 @@
 ;
 ; KEYWORDS:
 ;
-;    name_replace: A string of file name. If it's given, copied file name is replaced
+;    name_replace: A string vector of field's name. If it's given, field name is replaced
 ;    with it; otherwise, copied file name is the same as source file.
 ;
 ; OUTPUTS:
@@ -48,8 +48,6 @@ function shape_copy, fn_shape_src, fn_shape_rst, names_replace = name_replace
     return, 0
   endif
   
-  names_replace = strupcase(names_replace)
-  
   ; read the property of src shape file
   oShape_src = OBJ_NEW('IDLffShape', fn_shape_src)
   oShape_src-> GetProperty, ATTRIBUTE_INFO = ATTRIBUTE_INFO, $
@@ -66,6 +64,7 @@ function shape_copy, fn_shape_src, fn_shape_rst, names_replace = name_replace
   for int_attr = 0, N_ATTRIBUTES - 1 do begin
     fld_Name_tmp = fld_NAMEs[int_attr]
     if keyword_set(names_replace) then begin
+      names_replace = strupcase(names_replace)
       sub_tmp = where (names_replace[0,*] EQ fld_NAMEs[int_attr], count_tmp )
       if count_tmp EQ 1 then begin
         fld_Name_tmp = names_replace[1, sub_tmp[0]]
