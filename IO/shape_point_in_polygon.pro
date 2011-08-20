@@ -18,28 +18,35 @@
 ;  point:  a two elements vector, indicating the point coordinate
 ;
 ; KEYWORDS:
-;
+;  str_fldname: the string of field name in the polygon entity
 ;
 ; OUTPUTS:
-;
-;   flag: 0 stands for the point lies strictly out of bounds of the region
-;         1 stands for the point lies strictly inside the bounds of the region
-;         2 stands for the point lies on an edge of the region boundary(maybe interior boundary)
-;         3 stands for the point matches a vertex of the region(including interior vertex)
-;
+;  IF the given point is out of the polygon region, this function return -1.otherwise,if the given 
+;  point is contained within the polygon region,two situation:
+;      if keyword is seted: return the string of field name of the entity which contains the given point
+;      if keyword is not seted: return the FID of the entity which contains the given point
+; 
 ; EXAMPLE:
 ;
 ; MODIFICATION_HISTORY:
 ;
-function shape_point_in_polygon,fn_shape_polygon,point
+function shape_point_in_polygon,fn_shape_polygon,point,str_fldname = str_fldname
 
-  flag = 0
   oShape = OBJ_NEW('IDLffShape',fn_shape_polygon)
-  oShape-> GetProperty, N_ENTITIES=N_ENTITIES
+  oShape-> GetProperty, N_ENTITIES=N_ENTITIES,ATTRIBUTE_INFO = ATTRIBUTE_INFO
+  
+  IF KEYWORD_SET(str_fldname) THEN BEGIN
+    subscript_tmp = where (STRTRIM(ATTRIBUTE_INFO.name,2) EQ STRTRIM(str_fldname,2), count_tmp)
+    IF count_tmp NE 1 THEN BEGIN
+      PRINT, 'field ' + str_fldname + 'not exists'
+    ENDIF ELSE BEGIN
+      fld_no  = subscript_tmp[0]
+    ENDELSE
+  ENDIF
   
   for int_ENT =  0L , N_ENTITIES -1 do begin
   
-    oENTITY  = oShape -> IDLffShape::GetEntity(int_ENT)
+    oENTITY  = oShape -> IDLffShape::GetEntity(int_ENT,/ATTRIBUTES)
     for int_part = 1L, oENTITY.N_PARTS do begin
       if oENTITY.N_PARTS LE 1 then begin
         start_vertic = 0
@@ -57,7 +64,13 @@ function shape_point_in_polygon,fn_shape_polygon,point
       oROI = OBJ_NEW( 'IDLanROI')
       oROI -> SetProperty, data = VERTICES_Polygon[0:1,*]
       flag = oROI->ContainsPoints(point)
-      if flag gt 0 then return,flag
+      if flag gt 0 then begin
+        if KEYWORD_SET(str_fldname) then begin
+          return,(*oENTITY.ATTRIBUTES).(fld_no)
+        endif else begin
+          return,int_ENT
+        endelse
+      endif
     endfor
     
     oShape->Idlffshape::destroyentity, oENTITY
@@ -66,6 +79,6 @@ function shape_point_in_polygon,fn_shape_polygon,point
   oShape->IDLffShape::Close
   OBJ_DESTROY, oShape
   
-  return,flag
+  return,-1
   
 end
