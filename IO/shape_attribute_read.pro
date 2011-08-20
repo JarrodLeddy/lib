@@ -19,7 +19,7 @@
 ;
 ; ARGUMENTS:
 ;
-;    fn_shape: a string vector of shape file name with full path. Program can only read 
+;    fn_shape: a string vector of shape file name with full path. Program can only read
 ;    attribute from a single shape file
 ;
 ; KEYWORDS:
@@ -39,8 +39,34 @@
 ;    Code written by Weihua Fang.
 ;    Comments written by Yuguo Wu.
 ;
-function shape_attribute_read, fn_shape, fld_NAME
-    if keyword_set (fn_Shape) then begin
+;+
+; :Description:
+;    Describe the procedure.
+;
+; :Params:
+;    fn_shape
+;    fld_NAME
+;    rec_range
+;
+;
+;
+; :Author: Hyperbola
+;-
+;+
+; :Description:
+;    Describe the procedure.
+;
+; :Params:
+;    fn_shape
+;    fld_NAME
+;    rec_range
+;
+;
+;
+; :Author: Hyperbola
+;-
+function shape_attribute_read, fn_shape, fld_NAME = fld_NAME, rec_range=rec_range
+  if keyword_set (fn_Shape) then begin
     if n_elements(fn_shape) GT 1 then begin
       print, 'can only read attribute from a single shape file'
       RETALL
@@ -56,7 +82,17 @@ function shape_attribute_read, fn_shape, fld_NAME
   
   oShape = OBJ_NEW('IDLffShape', fn_Shape, DBF_ONLY =1 )
   oShape-> GetProperty, ATTRIBUTE_NAMES = ATTRIBUTE_NAMES
-  dbf_recs = oShape->GetAttributes(/ALL)
+  
+  if ~keyword_set(rec_range) then begin
+    dbf_recs = oShape->GetAttributes(/ALL)
+  endif else begin
+    if n_elements (rec_range) eq 1 and rec_range[0] eq 1 then begin
+      dbf_recs = oShape->GetAttributes()
+    endif else begin
+      dbf_recs = oShape->GetAttributes(rec_range - 1)
+    endelse
+  endelse
+  
   OBJ_DESTROY, oShape
   
   if keyword_set (fld_name) then begin
@@ -67,7 +103,7 @@ function shape_attribute_read, fn_shape, fld_NAME
     endif
     
     subscript_tmp = where (STRUPCASE(strtrim(ATTRIBUTE_NAMES,2)) eq STRUPCASE(fld_name),$
-                           count_tmp)
+      count_tmp)
     if count_tmp NE 1 then begin
       print, 'can not find field ' + fld_name + ' in file ' + fn_shape
       RETALL
