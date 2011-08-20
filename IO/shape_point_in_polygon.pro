@@ -10,7 +10,7 @@
 ;   determines whether the given point is contained within the polygon region
 ;
 ; CALLING SEQUENCE:
-;  result =  shape_point_in_polygon(fn_shape_polygon,point)
+;  result =  shape_point_in_polygon(fn_shape_polygon,point,str_fldname = str_fldname)
 ;
 ; ARGUMENTS:
 ;
@@ -22,7 +22,7 @@
 ;
 ; OUTPUTS:
 ;  IF the given point is out of the polygon region, this function return -1.otherwise,if the given 
-;  point is contained within the polygon region,two situation:
+;  point is contained within the polygon region,two situations:
 ;      if keyword is seted: return the string of field name of the entity which contains the given point
 ;      if keyword is not seted: return the FID of the entity which contains the given point
 ; 
@@ -71,6 +71,7 @@ function shape_point_in_polygon,fn_shape_polygon,point,str_fldname = str_fldname
           return,int_ENT
         endelse
       endif
+      OBJ_DESTROY,oROI
     endfor
     
     oShape->Idlffshape::destroyentity, oENTITY
