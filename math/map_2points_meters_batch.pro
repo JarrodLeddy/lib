@@ -29,10 +29,14 @@ Function map_2points_meters_batch, lon0, lat0, lon1, lat1
     sinaz[subscript_tmp] = 0.0
   endif
   
-  max_size = max([n_elements(lon0), n_elements(lon1)])
-  output = dblarr(2, max_size)
-  output(0, *) = acos(cosc) * 6378206.4d0
-  output(1, *) = atan(sinaz, cosaz) / k
+  size0 = size(lon0)
+  size1 = size(lon1)
+  dim0 = size0[0]
+  dim1 = size1[0]
+  if dim0 ne 0 then value = lon0 else value = lon1
+  output = {r: value, angle: value}
+  output.r = acos(cosc) * 6378206.4d0
+  output.angle = atan(sinaz, cosaz) / k
   return, output
   
 end
