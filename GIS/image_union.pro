@@ -22,15 +22,17 @@
 ;      value: calculating index
 ;      x: x coordinates of start point of image
 ;      y: y coordinates of start point of image
-;      col: number of column of image(a square)
-;      row： nubber of row of image(a rectangle)
+;      N_col: number of column of image(a square)
+;      N_row： nubber of row of image(a rectangle)
 ;      pixel_size: pixel size of image
 ;    image2: a struct which is to be added in images, the elements are:
 ;      value: calculating index
 ;      x: x coordinates of start point of image
 ;      y: y coordinates of start point of image
-;      col: number of column of image(a square)
+;      N_col: number of column of image(a square)
 ;      pixel_size: pixel size of image 
+
+;      union_option: 0: max, 1, max, 2, min, 3, mean, 4 sum
 ;
 ; KEYWORDS:
 ;
@@ -51,7 +53,7 @@ function image_union, image1, image2, union_option = union_option
   ; get value
   value1 = image1.value
   value2 = image2.value
-  
+
   ; get start points of 2 images
   image1_x_start = image1.x
   image1_y_start = image1.y
@@ -59,9 +61,10 @@ function image_union, image1, image2, union_option = union_option
   image2_y_start = image2.y
   
   ; get col and row of image1(rectangle) and col of image2(square)
-  col1 = image1.col
-  row1 = image1.row
-  col2 = image2.col
+  col1 = image1.N_col
+  row1 = image1.N_row
+
+  col2 = image2.N_col
   
   ; get pixel size, in this case, pixel size of image1 is eqaul to image2's
   pixel_size = image1.pixel_size
@@ -102,8 +105,8 @@ function image_union, image1, image2, union_option = union_option
   return_image = {value: union_image, $
                   x: x_start, $
                   y: y_start, $
-                  col: N_image_col, $
-                  row: N_image_row, $
+                  N_col: N_image_col, $
+                  N_row: N_image_row, $
                   pixel_size: pixel_size}
                
   ; specify the public region of the 2 images(start/end points)

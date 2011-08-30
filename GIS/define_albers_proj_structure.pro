@@ -1,6 +1,6 @@
 ;+
 ; NAME:
-;       mlib_define_Albers_projected_system
+;       define_Albers_proj_structure
 ;
 ; PURPOSE:
 ;
@@ -16,7 +16,7 @@
 ;
 ; CALLING SEQUENCE:
 ;
-;       sMap_Albers = mlib_define_Albers_projected_system()
+;       sMap_Albers = define_Albers_proj_structure()
 ;
 ; OPTIONAL INPUTS:
 ;
@@ -35,7 +35,7 @@
 ;  EXAMPLE:
 ;
 ;
-function mlib_define_Albers_projected_system
+function define_Albers_proj_structure
 
   SEMIMAJOR_AXIS   = 6378245.0 ; Meter
   SEMIMINOR_AXIS   = 6356863.0
