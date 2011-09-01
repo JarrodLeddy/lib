@@ -10,7 +10,7 @@
 ;
 ; CALLING SEQUENCE:
 ;  result = shape_rasterize (str_shape_File, pixel_size)
-;  
+;
 ; ARGUMENTS:
 ;
 ; str_shape_File: the path of the file
@@ -25,7 +25,7 @@
 ;
 ; OUTPUTS:
 ;
-;   a mask file (the region the vector file contains) 
+;   a mask file (the region the vector file contains)
 ;
 ; EXAMPLE:
 ;
@@ -34,17 +34,12 @@
 ;
 ; MODIFICATION_HISTORY:
 
-
-
-
-
-
 FUNCTION Shape_rasterize, str_shape_File,  $
     pixel_size, $
     str_fldname   = str_fldname, $
-    origin   = origin, $
-    n_col_row  = n_col_row, $
-    sMap_Target= sMap_Target
+    origin        = origin, $
+    n_col_row     = n_col_row, $
+    sMap_Target   = sMap_Target
     
   oShape = OBJ_NEW('IDLffShape',str_shape_File)
   oShape-> GetProperty, ENTITY_TYPE  = ENTITY_TYPE, ATTRIBUTE_INFO = ATTRIBUTE_INFO

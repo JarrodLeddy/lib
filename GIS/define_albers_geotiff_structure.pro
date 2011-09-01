@@ -1,3 +1,5 @@
+
+
 function define_albers_geotiff_structure, x_left, y_top, pixel_size
 
   MODELPIXELSCALETAG      = dblarr(3)
