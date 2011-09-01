@@ -157,6 +157,10 @@ function image_union, image1, image2, union_option = union_option
        end
     2: begin
        for i_y_union = public_y_union, public_y_union + public_N_row - 1 do begin
+       subscript_tmp1 = where(public_image1[*, i_y_union - public_y_union] eq 0, count1)
+       subscript_tmp2 = where(public_image2[*, i_y_union - public_y_union] eq 0, count2)
+       if count1 gt 0 then public_image1[subscript_tmp1, i_y_union - public_y_union] = 10000
+       if count2 gt 0 then public_image2[subscript_tmp1, i_y_union - public_y_union] = 10000
        union_image[public_x_union + indgen(public_N_col), i_y_union] = $
        public_image1[*, i_y_union - public_y_union] < public_image2[*, i_y_union - public_y_union]
        endfor
