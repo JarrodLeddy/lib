@@ -38,7 +38,9 @@ FUNCTION Shape_rasterize, str_shape_File,  $
     pixel_size, $
     str_fldname   = str_fldname, $
     origin        = origin, $
+    origin_return = origin_return, $
     n_col_row     = n_col_row, $
+    n_col_row_return = n_col_row_return, $
     sMap_Target   = sMap_Target
     
   oShape = OBJ_NEW('IDLffShape',str_shape_File)
@@ -327,7 +329,14 @@ FUNCTION Shape_rasterize, str_shape_File,  $
   
   PRINT, 'end of rasterize_shape_polygon'
   WINDOW,1,XSIZE=1000,YSIZE=700
-  TVSCL,mask,order = 1
+  
+  if keyword_set(origin_return) then begin
+    origin_return = origin
+  endif
+  if keyword_set(n_col_row_return) then begin
+    n_col_row_return = n_col_row
+  endif
+  
   RETURN, mask
   
 END

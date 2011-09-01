@@ -7,8 +7,6 @@ FUNCTION shape_delete, fn_shape, noconfirm = noconfirm
   fn_list_delete = FILEPATH( file_basename + suffix, ROOT_DIR=file_dirname)
   N_suffix = n_elements(suffix)
   
-;  print, fn_list_delete
-  
   if keyword_set(noconfirm) then begin
     FILE_DELETE, fn_list_delete, /ALLOW_NONEXISTENT, /QUIET
     return, 1
@@ -25,5 +23,7 @@ FUNCTION shape_delete, fn_shape, noconfirm = noconfirm
       return, 0
     endelse
   endelse
+  
+  return, 1
   
 END
