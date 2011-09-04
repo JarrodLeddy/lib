@@ -1,5 +1,5 @@
 FUNCTION shape_select_by_attribute, fn_shape_src, fn_shape_rst, $
-    fld_NAME, operater, fld_value, $
+    fld_NAME, operator, fld_value, $
     noconfirm = noconfirm
     
   ; testing the existence of shape file
@@ -16,7 +16,7 @@ FUNCTION shape_select_by_attribute, fn_shape_src, fn_shape_rst, $
   endif
   
   rst_attr = shape_attribute_read(fn_shape_src, fld_NAME = fld_NAME)
-  case operater of
+  case operator of
     0: rec_range = where(rst_attr eq fld_value, count_tmp)
     1: rec_range = where(rst_attr eq fld_value, count_tmp)
     2: rec_range = where(rst_attr GT fld_value, count_tmp)
@@ -25,7 +25,7 @@ FUNCTION shape_select_by_attribute, fn_shape_src, fn_shape_rst, $
     5: rec_range = where(rst_attr LE fld_value, count_tmp)
     6: rec_range = where(rst_attr NE fld_value, count_tmp)
     else: begin
-      print, 'wrong operater'
+      print, 'wrong operator'
       return, 0
     end
   endcase
