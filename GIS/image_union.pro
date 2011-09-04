@@ -22,18 +22,24 @@
 ;      value: calculating index
 ;      x: x coordinates of start point of image
 ;      y: y coordinates of start point of image
-;      col: number of column of image(a square)
-;      N_row： nubber of N_row of image(a rectangle)
+;      N_col: number of column of image
+;      N_row： nubber of N_row of image
 ;      pixel_size: pixel size of image
 ;    image2: a struct which is to be added in images, the elements are:
 ;      value: calculating index
 ;      x: x coordinates of start point of image
 ;      y: y coordinates of start point of image
-;      col: number of column of image(a square)
+;      N_col: number of column of image
+;      N_row： nubber of N_row of image
 ;      pixel_size: pixel size of image 
 ;
 ; KEYWORDS:
-;
+;    union_option: option of image union in images' public region:
+;      1. choose maximum value
+;      2. choose minimum value
+;      3. choose mean value
+;      4. choose sum value
+;    background_value: initial value of union image. default value is 0
 ;
 ; OUTPUTS:
 ;
@@ -46,7 +52,8 @@
 ; MODIFICATION_HISTORY:
 ;
 
-function image_union, image1, image2, union_option = union_option
+function image_union, image1, image2, union_option = union_option, $
+  background_value = background_value
   
   ; get value
   value1 = image1.value
@@ -85,6 +92,11 @@ function image_union, image1, image2, union_option = union_option
   
   ; define image to combine 2 image
   union_image = fltarr(N_image_col, N_image_row)
+  if keyword_set(background_value) then begin
+    union_image[*] = background_value
+  endif else begin
+    background_value = 0
+  endelse
   
   ; get the index of start points in union image
   union_x1 = round((image1_x_start - x_start) / pixel_size)
@@ -150,37 +162,33 @@ function image_union, image1, image2, union_option = union_option
   ; compare 2 images in public region, choose the union option of value
     case union_option of
     1: begin
-       for i_y_union = public_y_union, public_y_union + public_N_row - 1 do begin
-       union_image[public_x_union + indgen(public_N_col), i_y_union] = $
-       public_image1[*, i_y_union - public_y_union] > public_image2[*, i_y_union - public_y_union]
-       endfor
-       end
+      for i_y_union = public_y_union, public_y_union + public_N_row - 1 do begin
+        union_image[public_x_union + indgen(public_N_col), i_y_union] = $
+        public_image1[*, i_y_union - public_y_union] > public_image2[*, i_y_union - public_y_union]
+      endfor
+    end
     2: begin
-       for i_y_union = public_y_union, public_y_union + public_N_row - 1 do begin
-       subscript_tmp1 = where(public_image1[*, i_y_union - public_y_union] eq 0, count1)
-       subscript_tmp2 = where(public_image2[*, i_y_union - public_y_union] eq 0, count2)
-       if count1 gt 0 then public_image1[subscript_tmp1, i_y_union - public_y_union] = 10000
-       if count2 gt 0 then public_image2[subscript_tmp1, i_y_union - public_y_union] = 10000
-       union_image[public_x_union + indgen(public_N_col), i_y_union] = $
-       public_image1[*, i_y_union - public_y_union] < public_image2[*, i_y_union - public_y_union]
-       endfor
-       end
+      for i_y_union = public_y_union, public_y_union + public_N_row - 1 do begin
+        union_image[public_x_union + indgen(public_N_col), i_y_union] = $
+        public_image1[*, i_y_union - public_y_union] < public_image2[*, i_y_union - public_y_union]
+      endfor
+    end
     3: begin
-       for i_y_union = public_y_union, public_y_union + public_N_row - 1 do begin
-       union_image[public_x_union + indgen(public_N_col), i_y_union] = $
-       0.5 * (public_image1[*, i_y_union - public_y_union] + public_image2[*, i_y_union - $
-       public_y_union])
-       endfor
-       end
+      for i_y_union = public_y_union, public_y_union + public_N_row - 1 do begin
+        union_image[public_x_union + indgen(public_N_col), i_y_union] = $
+        0.5 * (public_image1[*, i_y_union - public_y_union] + public_image2[*, i_y_union - $
+        public_y_union])
+      endfor
+    end
     4: begin
-       for i_y_union = public_y_union, public_y_union + public_N_row - 1 do begin
-       union_image[public_x_union + indgen(public_N_col), i_y_union] = $
-       public_image1[*, i_y_union - public_y_union] + public_image2[*, i_y_union - public_y_union]
-       endfor
-       end
+      for i_y_union = public_y_union, public_y_union + public_N_row - 1 do begin
+        union_image[public_x_union + indgen(public_N_col), i_y_union] = $
+        public_image1[*, i_y_union - public_y_union] + public_image2[*, i_y_union - public_y_union]
+      endfor
+    end
     endcase
   endelse
-
+  
   return_image.value = union_image
 
   return, return_image
