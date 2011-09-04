@@ -26,7 +26,7 @@
 ;
 ; OUTPUTS:
 ;
-;    A structure describing geotiff, which contains projection and other infomation
+;    A structure describing geotiff, which contains albers projection and other infomation
 ;
 ; KNOWN BUGS:
 ;
@@ -34,7 +34,6 @@
 ;
 ; MODIFICATION_HISTORY:
 ;
-
 function define_albers_geotiff_structure, x_left, y_top, pixel_size
 
   MODELPIXELSCALETAG      = dblarr(3)
