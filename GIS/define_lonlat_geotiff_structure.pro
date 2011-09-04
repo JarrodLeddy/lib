@@ -1,3 +1,39 @@
+;+
+; NAME:
+;
+;    define_lonlat_geotiff_structure
+;
+; AUTHOR:
+;
+;    Weihua Fang
+;    weihua.fang@bnu.edu.cn
+;
+; PURPOSE:
+;
+;    define geotiff for lon/lat projection to store data
+;
+; CALLING SEQUENCE:
+;
+;    result = define_lonlat_geotiff_structure(x_left, y_top, pixel_size)
+;
+; ARGUMENTS:
+;
+;    x_left: x coordinate of left-top point in tiff file, unit: degree
+;    y_top: y coordinate of left-top point in tiff file, unit: degree
+;    pixel_size: pixel size of tiff file, unit: degree
+;
+; KEYWORDS:
+;
+; OUTPUTS:
+;
+;    A structure describing geotiff, which contains lon/lat projection and other infomation
+;
+; KNOWN BUGS:
+;
+; EXAMPLE:
+;
+; MODIFICATION_HISTORY:
+;
 function define_lonlat_geotiff_structure, x_left, y_top, pixel_size
 
   MODELPIXELSCALETAG      = dblarr(3)
