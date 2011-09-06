@@ -160,6 +160,7 @@ function image_union, image1, image2, union_option = union_option, $
       i_y2]
     endfor
   ; compare 2 images in public region, choose the union option of value
+  if ~keyword_set(union_option) then union_option = 1
     case union_option of
     1: begin
       for i_y_union = public_y_union, public_y_union + public_N_row - 1 do begin
@@ -169,6 +170,10 @@ function image_union, image1, image2, union_option = union_option, $
     end
     2: begin
       for i_y_union = public_y_union, public_y_union + public_N_row - 1 do begin
+        subscript_tmp = where(public_image1[*, i_y_union - public_y_union] eq background_value, count)
+        if count gt 0 then begin
+          public_image1[subscript_tmp, i_y_union - public_y_union] = 10000.0
+        endif 
         union_image[public_x_union + indgen(public_N_col), i_y_union] = $
         public_image1[*, i_y_union - public_y_union] < public_image2[*, i_y_union - public_y_union]
       endfor
