@@ -60,10 +60,10 @@ function image_union, image1, image2, union_option = union_option, $
   value2 = image2.value
   
   ; get start points of 2 images
-  image1_x_start = image1.x
-  image1_y_start = image1.y
-  image2_x_start = image2.x
-  image2_y_start = image2.y
+  image1_x_left = image1.x_left
+  image1_y_top = image1.y_top
+  image2_x_left = image2.x_left
+  image2_y_top = image2.y_top
   
   ; get N_col and N_row of image1(rectangle) and N_col of image2(square)
   N_col1 = image1.N_col
@@ -75,20 +75,20 @@ function image_union, image1, image2, union_option = union_option, $
   pixel_size = image1.pixel_size
   
   ; get end points of 2 images
-  image1_x_end = float(image1_x_start + (N_col1 - 1)* pixel_size)
-  image1_y_end = float(image1_y_start - (N_row1 - 1)* pixel_size)
-  image2_x_end = float(image2_x_start + (N_col2 - 1)* pixel_size)
-  image2_y_end = float(image2_y_start - (N_row2 - 1)* pixel_size)
+  image1_x_end = float(image1_x_left + (N_col1 - 1)* pixel_size)
+  image1_y_end = float(image1_y_top - (N_row1 - 1)* pixel_size)
+  image2_x_end = float(image2_x_left + (N_col2 - 1)* pixel_size)
+  image2_y_end = float(image2_y_top - (N_row2 - 1)* pixel_size)
   
   ; get a start point of image which combine image1 and image2
-  x_start = min([image1_x_start, image2_x_start])
-  y_start = max([image1_y_start, image2_y_start])
+  x_left = min([image1_x_left, image2_x_left])
+  y_top = max([image1_y_top, image2_y_top])
   x_end = max([image1_x_end, image2_x_end])
   y_end = min([image1_y_end, image2_y_end])
   ; get N_col and N_row of the image
-  a = x_end - x_start
-  N_image_col = round((x_end - x_start) / pixel_size) + 1
-  N_image_row = round((y_start - y_end) / pixel_size) + 1
+  a = x_end - x_left
+  N_image_col = round((x_end - x_left) / pixel_size) + 1
+  N_image_row = round((y_top - y_end) / pixel_size) + 1
   
   ; define image to combine 2 image
   union_image = fltarr(N_image_col, N_image_row)
@@ -99,10 +99,10 @@ function image_union, image1, image2, union_option = union_option, $
   endelse
   
   ; get the index of start points in union image
-  union_x1 = round((image1_x_start - x_start) / pixel_size)
-  union_y1 = round((y_start - image1_y_start) / pixel_size)
-  union_x2 = round((image2_x_start - x_start) / pixel_size)
-  union_y2 = round((y_start - image2_y_start) / pixel_size)
+  union_x1 = round((image1_x_left - x_left) / pixel_size)
+  union_y1 = round((y_top - image1_y_top) / pixel_size)
+  union_x2 = round((image2_x_left - x_left) / pixel_size)
+  union_y2 = round((y_top - image2_y_top) / pixel_size)
   
   ; fill the image with 2 images
   for i_y = union_y1, union_y1 + N_row1 - 1 do begin
@@ -114,25 +114,25 @@ function image_union, image1, image2, union_option = union_option, $
   
   ; define a return structure
   return_image = {value: union_image, $
-                  x: x_start, $
-                  y: y_start, $
+                  x_left: x_left, $
+                  y_top: y_top, $
                   N_col: N_image_col, $
                   N_row: N_image_row, $
                   pixel_size: pixel_size}
                
   ; specify the public region of the 2 images(start/end points)
-  public_x_start = max([image1_x_start, image2_x_start])
-  public_y_start = min([image1_y_start, image2_y_start])
+  public_x_left = max([image1_x_left, image2_x_left])
+  public_y_top = min([image1_y_top, image2_y_top])
   public_x_end   = min([image1_x_end, image2_x_end])
   public_y_end   = max([image1_y_end, image2_y_end])
   
   ; 2 images has no public region, return
-  if public_x_start gt public_x_end or public_y_start lt public_y_end then begin
+  if public_x_left gt public_x_end or public_y_top lt public_y_end then begin
     return, return_image
   endif else begin
   ; get N_col and N_row for public region
-    public_N_col = round((public_x_end - public_x_start) / pixel_size) + 1
-    public_N_row = round((public_y_start - public_y_end) / pixel_size) + 1
+    public_N_col = round((public_x_end - public_x_left) / pixel_size) + 1
+    public_N_row = round((public_y_top - public_y_end) / pixel_size) + 1
     
   ; build images for the public region of 2 input image and the union image to
   ; sift the max value
@@ -142,13 +142,13 @@ function image_union, image1, image2, union_option = union_option, $
     public_image2 = fltarr(public_N_col, public_N_row)
 
   ; get the start point index of images for 2 images just defined
-    public_x1 = round((public_x_start - image1_x_start) / pixel_size)
-    public_y1 = round((image1_y_start - public_y_start) / pixel_size)
-    public_x2 = round((public_x_start - image2_x_start) / pixel_size)
-    public_y2 = round((image2_y_start - public_y_start) / pixel_size)
+    public_x1 = round((public_x_left - image1_x_left) / pixel_size)
+    public_y1 = round((image1_y_top - public_y_top) / pixel_size)
+    public_x2 = round((public_x_left - image2_x_left) / pixel_size)
+    public_y2 = round((image2_y_top - public_y_top) / pixel_size)
   ; get the start point index of union image in public region
-    public_x_union = round((public_x_start - x_start) / pixel_size)
-    public_y_union = round((y_start - public_y_start) / pixel_size)
+    public_x_union = round((public_x_left - x_left) / pixel_size)
+    public_y_union = round((y_top - public_y_top) / pixel_size)
 
   ; fill the public images with value for 2 images
     for i_y1 = public_y1, public_y1 + public_N_row - 1 do begin
