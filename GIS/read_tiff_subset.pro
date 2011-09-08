@@ -1,5 +1,5 @@
 function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
-    sImage = sImage, fn_image = fn_image, Z0_default = Z0_default
+    sImage = sImage, fn_image = fn_image, tiff_val_default = tiff_val_default
     
   if ~keyword_set(sImage) then begin
     if keyword_set(fn_image) then begin
@@ -36,20 +36,16 @@ function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
     type         = SIZE(image, /Type)
     subset_image = MAKE_ARRAY(DIMENSION = dimension, type = type)
     if keyword_set(default_value) then begin
-      subset_image[*] =  Z0_default
+      subset_image[*] =  tiff_val_default
     endif
     
     size_image    = SIZE(image, /DIMENSIONS)
-    subscript_tmp = where(index_x LE size_image[0] and index_y LE size_image[1], count_tmp)
+    subscript_tmp = where(index_x LE size_image[0] and index_x LT 0 $ 
+    index_y LE size_image[1] and index_y LT 0, count_tmp)
     if count_tmp GT 0 then begin
-      subset_image [subscript_tmp] = image[ index_x[subscript_tmp], index_y[subscript_tmp]]
+      subset_image [subscript_tmp] = image[index_x[subscript_tmp], index_y[subscript_tmp]]
     endif
-    
-    subscript_tmp = where(index_x LT 0 and index_y LT 0, count_tmp)
-    if count_tmp GT 0 then begin
-      subset_image[subscript_tmp] = Z0_default
-    endif
-    
+
     return, subset_image
     
   endelse
