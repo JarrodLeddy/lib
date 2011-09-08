@@ -1,5 +1,5 @@
 function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
-    sImage = sImage, fn_image = fn_image
+    sImage = sImage, fn_image = fn_image, Z0_default = Z0_default
     
   if ~keyword_set(sImage) then begin
     if keyword_set(fn_image) then begin
@@ -14,22 +14,46 @@ function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
     image   = sImage.image
     geotiff = sImage.geotiff
     
-    dimension    = SIZE(image, /DIMENSIONS)
-    type         = SIZE(image, /Type)
-    image_subset = MAKE_ARRAY(DIMENSION = dimension , type = type )
-
     if geotiff.GTModelTypeGeoKey eq 2 then begin ; geographic longitude/latitude
       subset_x = subset_lon
       subset_y = subset_lat
     endif else begin
-      mapCoord = GeoCoord(image, geotiff)
-      sMap     = mapCoord -> GetMapStructure()
+      mapCoord  = GeoCoord(image, geotiff)
+      mapStruct = mapCoord -> GetMapStructure()
       subset_xy = Map_Proj_Forward(subset_lon, subset_lat, Map_Structure = mapStruct)
-      subset_x = subset_xy[0]
-      subset_y = subset_xy[1]
+      subset_x  = subset_xy[0, *]
+      subset_y  = subset_xy[1, *]
     endelse
-; to improve coding here
-
+    
+    tiff_x_left     = geotiff.MODELTIEPOINTTAG[3]
+    tiff_y_top      = geotiff.MODELTIEPOINTTAG[4]
+    tiff_pixel_size = geotiff.MODELPIXELSCALETAG[0]
+    
+    index_x = round((subset_x - tiff_x_left + 0.5 * tiff_pixel_size) / tiff_pixel_size)
+    index_y = round((tiff_y_top - subset_y  - 0.5 * tiff_pixel_size) / tiff_pixel_size)
+    
+    dimension    = SIZE(subset_x, /DIMENSIONS)
+    type         = SIZE(image, /Type)
+    subset_image = MAKE_ARRAY(DIMENSION = dimension, type = type )
+    if keyword_set(default_value) then begin
+      subset_image[*] =  Z0_default
+    endif
+    
+    size_image    = SIZE(image, /DIMENSIONS)
+    subscript_tmp = where(index_x LE size_image[0] and index_y LE size_image[1], count_tmp)
+    if count_tmp GT 0 then begin
+      index_x = index_x[subscript_tmp]
+      index_y = index_y[subscript_tmp]
+      subset_image[a, b] = image[index_x, index_y]
+    endif
+    
+    subscript_tmp = where(index_x LT 0 and index_y LT 0, count_tmp)
+    if count_tmp GT 0 then begin
+      subset_image[c, d] = Z0_default
+    endif
+    
+    return, subset_image
     
   endelse
+  
 end
