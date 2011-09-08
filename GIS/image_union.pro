@@ -54,6 +54,7 @@
 
 function image_union, image1, image2, union_option = union_option, $
   background_value = background_value
+ 
   
   ; get value
   value1 = image1.value
@@ -89,6 +90,7 @@ function image_union, image1, image2, union_option = union_option, $
   a = x_end - x_left
   N_image_col = round((x_end - x_left) / pixel_size) + 1
   N_image_row = round((y_top - y_end) / pixel_size) + 1
+
   
   ; define image to combine 2 image
   union_image = fltarr(N_image_col, N_image_row)
@@ -103,7 +105,7 @@ function image_union, image1, image2, union_option = union_option, $
   union_y1 = round((y_top - image1_y_top) / pixel_size)
   union_x2 = round((image2_x_left - x_left) / pixel_size)
   union_y2 = round((y_top - image2_y_top) / pixel_size)
-  
+
   ; fill the image with 2 images
   for i_y = union_y1, union_y1 + N_row1 - 1 do begin
     union_image[union_x1 + indgen(N_col1), i_y] = value1[*, i_y - union_y1]
@@ -150,6 +152,7 @@ function image_union, image1, image2, union_option = union_option, $
     public_x_union = round((public_x_left - x_left) / pixel_size)
     public_y_union = round((y_top - public_y_top) / pixel_size)
 
+
   ; fill the public images with value for 2 images
     for i_y1 = public_y1, public_y1 + public_N_row - 1 do begin
       public_image1[indgen(public_N_col), i_y1 - public_y1] = value1[public_x1 + indgen(public_N_col), $
@@ -193,6 +196,9 @@ function image_union, image1, image2, union_option = union_option, $
     end
     endcase
   endelse
+  
+  temp = check_math()
+  if temp NE 0 then stop
   
   return_image.value = union_image
 
