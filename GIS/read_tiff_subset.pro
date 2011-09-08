@@ -43,7 +43,7 @@ function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
     subscript_tmp = where(index_x LE size_image[0] and index_x LT 0 and $
       index_y LE size_image[1] and index_y LT 0, count_tmp)
     if count_tmp GT 0 then begin
-      subset_image [subscript_tmp] = image[index_x[subscript_tmp], index_y[subscript_tmp]]
+      subset_image[subscript_tmp] = image[index_x[subscript_tmp], index_y[subscript_tmp]]
     endif
     
     return, subset_image
