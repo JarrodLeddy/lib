@@ -50,9 +50,9 @@ function define_albers_geotiff_structure, x_left, y_top, pixel_size
   ;MODELTRANSFORMATIONTAG [*,3] = [1026, 34737, 275, 0]
   GTMODELTYPEGEOKEY       = 1
   GTRASTERTYPEGEOKEY      = 1
-  GTCITATIONGEOKEY        = ''
+  GTCITATIONGEOKEY        = 'Beijing Normal University'
   GEOGRAPHICTYPEGEOKEY    = 32767
-  GEOGCITATIONGEOKEY      = ''
+  GEOGCITATIONGEOKEY      = 'www.OpenCyclone.com'
   GEOGGEODETICDATUMGEOKEY = 32767
   GEOGPRIMEMERIDIANGEOKEY = 8901
   GEOGLINEARUNITSGEOKEY   = 9001

@@ -46,9 +46,9 @@ function define_lonlat_geotiff_structure, x_left, y_top, pixel_size
 
   GTMODELTYPEGEOKEY       = 2 
   GTRASTERTYPEGEOKEY      = 1 
-  GTCITATIONGEOKEY        = 'www.OpenCyclone.com'
+  GTCITATIONGEOKEY        = 'Beijing Normal University'
   GEOGRAPHICTYPEGEOKEY    = 4326
-  GEOGCITATIONGEOKEY      = 'Beijing Normal University'
+  GEOGCITATIONGEOKEY      = 'www.OpenCyclone.com'
   GEOGANGULARUNITSGEOKEY  = 9102 
   PCSCITATIONGEOKEY       = 'SWAN'
   
