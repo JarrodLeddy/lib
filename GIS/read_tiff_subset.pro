@@ -12,6 +12,12 @@ function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
     endelse
   endif else begin
     image   = sImage.image
+    
+;    sub_tmp = where(image LE 0.0002, count_tmp)
+;    if count_tmp GT 0 then begin
+;      image[sub_tmp] = 0.0002
+;    endif
+
     geotiff = sImage.geotiff
     
     if geotiff.GTModelTypeGeoKey eq 2 then begin ; geographic longitude/latitude
@@ -35,9 +41,12 @@ function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
     dimension    = SIZE(subset_x, /DIMENSIONS)
     type         = SIZE(image, /Type)
     subset_image = MAKE_ARRAY(DIMENSION = dimension, type = type)
+    
     if keyword_set(default_value) then begin
       subset_image[*] =  tiff_val_default
-    endif
+    endif ;else begin
+;      subset_image[*] =  0.0002
+;    endelse
     
     size_image    = SIZE(image, /DIMENSIONS)
     subscript_tmp = where(index_x LE size_image[0] and index_x LT 0 and $
