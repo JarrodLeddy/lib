@@ -38,8 +38,9 @@ FUNCTION Shape_rasterize, str_shape_File,  $
     pixel_size, $
     str_fldname   = str_fldname, $
     origin        = origin, $
-    return_origin = return_origin, $
+    origin_return = origin_return, $
     n_col_row     = n_col_row, $
+    n_col_row_return = n_col_row_return, $
     sMap_Target   = sMap_Target
     
   oShape = OBJ_NEW('IDLffShape',str_shape_File)
@@ -66,23 +67,27 @@ FUNCTION Shape_rasterize, str_shape_File,  $
     fld_vals  = MAKE_ARRAY( N_ENTITIES, TYPE=fld_type)
     
     FOR int_ENT = 0 , N_ENTITIES -1 DO BEGIN
-      ent_tmp  = Shape_obj -> IDLffShape::GetEntity(i)
-      fld_vals[int_ENT]  = (*ent_tmp.ATTRIBUTES).(fld_no)
+      ent_tmp  = oShape -> IDLffShape::GetEntity(int_ENT, /ATTRIBUTES)
+      IF has_valid_fld EQ 1 THEN BEGIN
+        fld_vals[int_ENT] = (*ent_tmp.ATTRIBUTES).(fld_no)
+      ENDIF ELSE BEGIN
+        fld_vals[int_ENT] = int_ENT + 1
+      ENDELSE
       
-      roi_arr[i] = OBJ_NEW('IDLanROI')
+      roi_arr[int_ENT] = OBJ_NEW('IDLanROI')
       
       IF KEYWORD_SET(sMap_Target) THEN BEGIN
-        roi_arr[i] -> IDLanROI::Setproperty, $
+        roi_arr[int_ENT] -> IDLanROI::Setproperty, $
           data = MAP_PROJ_FORWARD ([ent_tmp.bounds[0],ent_tmp.bounds[1]], $
           MAP_STRUCTURE = sMap_Target)
       ENDIF ELSE BEGIN
-        roi_arr[i] -> IDLanROI::Setproperty, $
+        roi_arr[int_ENT] -> IDLanROI::Setproperty, $
           data = [ent_tmp.bounds[0],ent_tmp.bounds[1]]
       ENDELSE
-      Shape_obj->Idlffshape::destroyentity, ent_tmp ;clean up pointers
+      oShape->Idlffshape::destroyentity, ent_tmp ;clean up pointers
       
-      roi_arr[i] -> IDLanROI::Getproperty,ROI_XRANGE = x_range_albers
-      roi_arr[i] -> IDLanROI::Getproperty,ROI_YRANGE = y_range_albers
+      roi_arr[int_ENT] -> IDLanROI::Getproperty,ROI_XRANGE = x_range_albers
+      roi_arr[int_ENT] -> IDLanROI::Getproperty,ROI_YRANGE = y_range_albers
       
       IF int_ENT EQ 0 THEN BEGIN
         x_min_shp = x_range_albers[0]
@@ -106,12 +111,12 @@ FUNCTION Shape_rasterize, str_shape_File,  $
     
     IF ~KEYWORD_SET(n_col_row) THEN BEGIN
       n_col_row = LONARR(2)
-      n_col_row [0] = CEIL( (x_max_shp - origin[0])/pixel_size)
-      n_col_row [1] = CEIL( (y_max_shp - origin[1])/pixel_size)
+      n_col_row [0] = ceil( (x_max_shp - origin[0])/pixel_size) + 1
+      n_col_row [1] = ceil( (y_max_shp - origin[1])/pixel_size) + 1
     ENDIF
     upper_bounds    = DBLARR(2)
-    upper_bounds[0] = x_min_shp + pixel_size * n_col_row[0]
-    upper_bounds[1] = y_min_shp + pixel_size * n_col_row[1]
+    upper_bounds[0] = x_min_shp + pixel_size * (n_col_row[0] - 1)
+    upper_bounds[1] = y_min_shp + pixel_size * (n_col_row[1] - 1)
     
     mask = MAKE_ARRAY( n_col_row[0], n_col_row[1], TYPE =fld_type)
     ;    print,n_col_row
@@ -327,9 +332,13 @@ FUNCTION Shape_rasterize, str_shape_File,  $
   OBJ_DESTROY, oShape
   
   PRINT, 'end of rasterize_shape_polygon'
+;  WINDOW,1,XSIZE=1000,YSIZE=700
   
-  if keyword_set(return_origin) then begin
-    return_origin = origin
+  if keyword_set(origin_return) then begin
+    origin_return = origin
+  endif
+  if keyword_set(n_col_row_return) then begin
+    n_col_row_return = n_col_row
   endif
   
   RETURN, mask
