@@ -49,8 +49,8 @@ function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
 ;    endelse
     
     size_image    = SIZE(image, /DIMENSIONS)
-    subscript_tmp = where(index_x LE size_image[0] and index_x GE 0 and $
-      index_y LE size_image[1] and index_y GE 0, count_tmp)
+    subscript_tmp = where(index_x LT size_image[0] and index_x GE 0 and $
+      index_y LT size_image[1] and index_y GE 0, count_tmp)
     if count_tmp GT 0 then begin
       subset_image[subscript_tmp] = image[index_x[subscript_tmp], index_y[subscript_tmp]]
     endif
