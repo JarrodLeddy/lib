@@ -1,6 +1,7 @@
 function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
     sImage = sImage, fn_image = fn_image, tiff_val_default = tiff_val_default
     
+  if ~keyword_set(tiff_val_default) then tiff_val_default = 0.0002
   if ~keyword_set(sImage) then begin
     if keyword_set(fn_image) then begin
       image = read_tiff(fn_image, geotiff = geotiff)
@@ -12,7 +13,6 @@ function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
     endelse
   endif else begin
     image   = sImage.image
-
     geotiff = sImage.geotiff
     
     if geotiff.GTModelTypeGeoKey eq 2 then begin ; geographic longitude/latitude
