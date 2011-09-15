@@ -12,11 +12,6 @@ function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
     endelse
   endif else begin
     image   = sImage.image
-    
-;    sub_tmp = where(image LE 0.0002, count_tmp)
-;    if count_tmp GT 0 then begin
-;      image[sub_tmp] = 0.0002
-;    endif
 
     geotiff = sImage.geotiff
     
@@ -44,9 +39,9 @@ function read_tiff_subset, subset_lon = subset_lon, subset_lat = subset_lat, $
     
     if keyword_set(default_value) then begin
       subset_image[*] =  tiff_val_default
-    endif ;else begin
-;      subset_image[*] =  0.0002
-;    endelse
+    endif else begin
+      subset_image[*] =  tiff_val_default
+    endelse
     
     size_image    = SIZE(image, /DIMENSIONS)
     subscript_tmp = where(index_x LT size_image[0] and index_x GE 0 and $
