@@ -66,8 +66,6 @@ function shape_containspoints,fn_shape_polygon, x, y, str_fldname = str_fldname,
   
   ShpCntnPts = intarr(N_pts)
   
-  
-  
   for int_ENT =  0L , N_ENTITIES -1 do begin
   
     oENTITY  = oShape -> IDLffShape::GetEntity(int_ENT,/ATTRIBUTES)
@@ -99,6 +97,7 @@ function shape_containspoints,fn_shape_polygon, x, y, str_fldname = str_fldname,
       oROI -> SetProperty, data = VERTICES_Polygon[0:1,*]
       
       for int_pts = 0L, cnt_sub - 1 do begin
+      
         flag = oROI->ContainsPoints(x[sub_xy(int_pts)],y[sub_xy(int_pts)])
         if flag gt 0 then begin
           if KEYWORD_SET(str_fldname) then begin
@@ -108,6 +107,7 @@ function shape_containspoints,fn_shape_polygon, x, y, str_fldname = str_fldname,
           endelse
         endif
         ShpCntnPts[sub_xy(int_pts)] = ShpCntnPts[sub_xy(int_pts)]> flag
+      
       endfor
       
       OBJ_DESTROY,oROI
