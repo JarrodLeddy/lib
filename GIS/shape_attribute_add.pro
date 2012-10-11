@@ -90,7 +90,7 @@ function shape_attribute_add, fn_shape_main, fn_shape_rst, $
   endif
   
   ; put entity of main shape to result shape
-  for int_ent = 0, N_ENTITIES -1 do begin
+  for int_ent = 0l, N_ENTITIES -1 do begin
     oENT_tmp = oShape_main->GetEntity(int_ent);,/ATTRIBUTES)
     oShape_rst->PutEntity, oENT_tmp
     oShape_main->DestroyEntity, oENT_tmp
@@ -98,8 +98,8 @@ function shape_attribute_add, fn_shape_main, fn_shape_rst, $
   
   ; set attribute of result shape with that of main shape
   attr_main = oShape_main-> GetAttributes(/ALL)
-  index = indgen(N_ENTITIES)
-  for int_attr = 0, N_ATTRIBUTES - 1 do begin
+  index = INDGEN(N_ENTITIES,/long) ;ULINDGEN(N_ENTITIES)
+  for int_attr = 0l, N_ATTRIBUTES - 1 do begin
     oShape_rst->SetAttributes, index, int_attr, attr_main.(int_attr)[*]
   endfor
   
