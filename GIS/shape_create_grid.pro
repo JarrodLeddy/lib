@@ -90,7 +90,7 @@ function shape_create_grid, fn_shape, x0, y0, n_cols, n_rows, grid_size, $
   ; Create structure for new entity.
   oENTITY = {IDL_SHAPE_ENTITY}
   
-  int_ent_index = 0
+  int_ent_index = 0l
   VERTICES = fltarr(2,4)
   for int_col = 0, n_cols -1 do begin
     for int_row = 0, n_rows -1 do begin
