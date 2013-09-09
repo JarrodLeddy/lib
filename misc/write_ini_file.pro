@@ -56,7 +56,6 @@ function write_ini_file, str_ini_file, var_name, var_value, var_comments, $
   
   if n_var_name ne n_var_value or n_var_value ne n_var_comments then begin
     print,'The elements of var_name, var_value and var_comments must be the same!'
-    stop
     return, -1
   endif else begin
     openw,lun,str_ini_file,/get_lun, width = 60000
