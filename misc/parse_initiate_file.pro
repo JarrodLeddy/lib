@@ -10,10 +10,7 @@
 ;
 ; PURPOSE:
 ;
-; In order to avoid the inconvinience of setting initial variables when starting a main procedure,
-; it may be more proper to parse the needed variables from an initial file without any modification
-; on the source code.
-; This function is used to parse the user specified variables from an initial file.
+; To parse variables from initial file.
 ;
 ; CALLING SEQUENCE:
 ;
@@ -21,7 +18,7 @@
 ;
 ; ARGUMENTS:
 ;
-; str_file_ini: file name of the initial file to be parsed
+; str_file_ini: file name of the initial file to be parsed.
 ; var_name    : a string array of variable names to be parsed
 ;
 ; KEYWORDS:
@@ -30,11 +27,11 @@
 ;
 ; OUTPUTS:
 ;
-;    a string array of parsed variable value with the same elements of var_name
+;    a parsed  scaler string value
 ;
 ; EXAMPLE:
 ;
-; ini_file  = 'D:\program\OpenCyclone\windfield\mid\wind.ini'
+; ini_file  = 'wind.ini'
 ; var_name  = ['Vg_type ','PBL_type']
 ; n_var     = n_elements(var_name)
 ; var_value = strarr(n_var)
@@ -43,7 +40,7 @@
 ;  print, var_name[int],':',var_value_tmp
 ; endfor
 ;
-; IDL print: 
+; IDL prints: 
 ;  Vg_type: 7
 ;  PBL_type:1
 ;
