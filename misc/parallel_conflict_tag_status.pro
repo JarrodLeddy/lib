@@ -7,7 +7,7 @@ function parallel_conflict_tag_status, filename, read = read, write = write, tag
       flag = file_test(filename,/read)
     endwhile
     openr,lun,filename,/get_lun
-    readf,lun,TC_ID
+    readf,lun,tag
     free_lun,lun
   endif
   
