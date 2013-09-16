@@ -56,10 +56,10 @@ function image_intersection, image1, image2
   N_row2 = image2.N_row
   
   pixel_size = image1.pixel_size
-  image1_x_right  = float(image1_x_left + (N_col1 - 1)* pixel_size)
-  image1_y_down   = float(image1_y_top - (N_row1 - 1)* pixel_size)
-  image2_x_right  = float(image2_x_left + (N_col2 - 1)* pixel_size)
-  image2_y_down    = float(image2_y_top - (N_row2 - 1)* pixel_size)
+  image1_x_right  = float(image1_x_left + N_col1* pixel_size)
+  image1_y_down   = float(image1_y_top - N_row1* pixel_size)
+  image2_x_right  = float(image2_x_left + N_col2 * pixel_size)
+  image2_y_down    = float(image2_y_top - N_row2 * pixel_size)
   
   intersect_x_left  = double(max([image1_x_left, image2_x_left]))
   intersect_y_top   = double(min([image1_y_top, image2_y_top]))
